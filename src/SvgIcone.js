@@ -5,7 +5,9 @@ export default defineComponent({
   name: 'SvgIcone',
   props: {
     nome: { type: String, required: true },
-    cor: { type: String, default: undefined },
+    // Sem cor → herda do CSS (fill: currentColor). Passe uma cor para fixar.
+    cor: { type: String, default: 'currentColor' },
+    // Sem tamanho → herda do CSS (1em, escala com font-size). Passe número/px para fixar.
     tamanho: { type: [Number, String], default: undefined },
     className: { type: String, default: undefined }
   },
@@ -15,7 +17,7 @@ export default defineComponent({
       svgIcone({
         nome: props.nome,
         cor: props.cor,
-        tamanho: props.tamanho ? Number(props.tamanho) : undefined,
+        tamanho: props.tamanho == null ? '1em' : props.tamanho,
         className: props.className
       }) || ''
     )

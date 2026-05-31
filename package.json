@@ -1,6 +1,6 @@
 {
   "name": "@edusites/icons",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Biblioteca JavaScript com 565 ícones SVG em português (incluindo bancos e fintechs brasileiras) — pretos por padrão, com cor e tamanho customizáveis. Funciona em React, Vue, Nuxt, Svelte e JS puro.",
   "author": {
     "name": "Eduardo Sites",

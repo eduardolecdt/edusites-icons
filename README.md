@@ -43,7 +43,11 @@ Registre **uma vez** e use `<SvgIcone>` em qualquer página/componente, sem impo
 Crie `plugins/edusites-icons.js`:
 
 ```js
-export { default } from '@edusites/icons/nuxt'
+import { instalarIcones } from '@edusites/icons/nuxt'
+
+export default defineNuxtPlugin((nuxtApp) => {
+  instalarIcones(nuxtApp)
+})
 ```
 
 Pronto. Agora em qualquer lugar:
@@ -54,6 +58,19 @@ Pronto. Agora em qualquer lugar:
   <SvgIcone nome="cadeado" cor="#d4a843" :tamanho="32" />
   <SvgIcone nome="seta-direita" cor="var(--cor-ouro)" :tamanho="20" />
 </template>
+```
+
+**Herança de cor e tamanho (como um ícone de fonte):** sem `cor`, o ícone usa `currentColor` — herda a cor do CSS (`color`). Sem `tamanho`, usa `1em` — escala com o `font-size`. Assim você controla tudo pelo CSS do contêiner:
+
+```vue
+<template>
+  <!-- herda color e font-size do .botao via CSS -->
+  <span class="botao"><SvgIcone nome="download" /> Baixar</span>
+</template>
+
+<style>
+.botao { color: #fff; font-size: 20px; }
+</style>
 ```
 
 ### Vue 3 (import direto)
