@@ -1,0 +1,70 @@
+{
+  "name": "@edusites/icons",
+  "version": "1.0.0",
+  "description": "Biblioteca JavaScript com 563 ícones SVG em português (incluindo bancos e fintechs brasileiras) — pretos por padrão, com cor e tamanho customizáveis. Funciona em React, Vue, Nuxt, Svelte e JS puro.",
+  "author": {
+    "name": "Eduardo Sites",
+    "email": "edusites@lecdt.com",
+    "url": "https://lecdt.com"
+  },
+  "license": "MIT",
+  "homepage": "https://lecdt.com/libs/icones",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eduardolecdt/edusites-icons.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eduardolecdt/edusites-icons/issues"
+  },
+  "keywords": [
+    "javascript",
+    "svg",
+    "icons",
+    "icones",
+    "edusites",
+    "lecdt",
+    "nuxt",
+    "vue",
+    "react",
+    "svelte",
+    "ui",
+    "bancos",
+    "fintech",
+    "pix",
+    "pagamentos"
+  ],
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.js",
+    "./nuxt": "./src/nuxt.js",
+    "./core": "./src/core.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src/index.js",
+    "src/core.js",
+    "src/icones.js",
+    "src/meta.js",
+    "src/SvgIcone.js",
+    "src/nuxt.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
