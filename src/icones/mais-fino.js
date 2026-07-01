@@ -1,0 +1,1 @@
+export default `<svg viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg"><rect x="5.73438" width="1.52941" height="13" rx="0.764706"/> <rect x="13" y="5.73535" width="1.52941" height="13" rx="0.764706" transform="rotate(90 13 5.73535)"/></svg>`

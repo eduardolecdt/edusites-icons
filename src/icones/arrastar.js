@@ -1,0 +1,1 @@
+export default `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="35" cy="20" r="8" /> <circle cx="65" cy="20" r="8" /> <circle cx="35" cy="50" r="8" /> <circle cx="65" cy="50" r="8" /> <circle cx="35" cy="80" r="8" /> <circle cx="65" cy="80" r="8" /></svg>`

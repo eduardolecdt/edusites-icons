@@ -1,0 +1,1 @@
+export default `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10.48 24.23L46.48 54.23L53.52 45.77L17.52 15.77Z" /><path d="M17.52 84.23L53.52 54.23L46.48 45.77L10.48 75.77Z" /><path d="M50 55.5L70 55.5L70 44.5L50 44.5Z" /><path d="M90 50L70 30L70 70Z" /></svg>`

@@ -1,7 +1,7 @@
 {
   "name": "@edusites/icons",
-  "version": "1.3.0",
-  "description": "Biblioteca JavaScript com 570 ícones SVG em português (incluindo bancos, fintechs e logos de tecnologias) — pretos por padrão, com cor e tamanho customizáveis. Funciona em React, Vue, Nuxt, Svelte e JS puro.",
+  "version": "1.5.0",
+  "description": "Biblioteca JavaScript com 1088 ícones SVG em português (bancos, fintechs, 160+ marcas mundiais, setas, gráficos, clima, comida, esporte, saúde e muito mais) — cada ícone com descrição visual detalhada para IA escolher o melhor. Pretos por padrão, cor e tamanho customizáveis. React, Vue, Nuxt, Svelte e JS puro.",
   "author": {
     "name": "Eduardo Sites",
     "email": "edusites@lecdt.com",
@@ -21,6 +21,9 @@
     "svg",
     "icons",
     "icones",
+    "icon-library",
+    "svg-icons",
+    "tree-shakeable",
     "edusites",
     "lecdt",
     "nuxt",
@@ -28,6 +31,9 @@
     "react",
     "svelte",
     "ui",
+    "ai",
+    "brands",
+    "logos",
     "bancos",
     "fintech",
     "pix",
@@ -36,7 +42,9 @@
   "main": "./src/index.js",
   "module": "./src/index.js",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "./src/resolvedor.js"
+  ],
   "exports": {
     ".": "./src/index.js",
     "./nuxt": "./src/nuxt.js",
@@ -46,11 +54,15 @@
   "files": [
     "src/index.js",
     "src/core.js",
+    "src/render.js",
+    "src/resolvedor.js",
     "src/icones.js",
+    "src/icones",
     "src/meta.js",
     "src/SvgIcone.js",
     "src/nuxt.js",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "peerDependencies": {

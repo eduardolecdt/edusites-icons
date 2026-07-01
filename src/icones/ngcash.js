@@ -1,0 +1,5 @@
+export default `<svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" fill-rule="evenodd" d="M106 78.1502H96.3618V87.7669H106V78.1502Z" />
+<path clip-rule="evenodd" fill-rule="evenodd" d="M86.1996 87.7652L85.2537 36.6384H66.539V44.1407H77.8732L78.4985 77.9451L54.4851 51.8845L52.2687 28.6579H66.09V21.1557H44.0018L47.2398 55.1048L77.3331 87.7652H86.1996Z" />
+<path clip-rule="evenodd" fill-rule="evenodd" d="M36.6096 87.7652H44.1985L35.0819 21.1499H20.5812L9.31724 51.3373V21.1499H1.79858V70.0162H10.3705L25.804 28.6522H28.5265L36.6096 87.7652Z" />
+</svg>`
