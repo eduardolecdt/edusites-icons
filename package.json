@@ -1,6 +1,6 @@
 {
   "name": "@edusites/icons",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Biblioteca JavaScript com 1088 ícones SVG em português (bancos, fintechs, 160+ marcas mundiais, setas, gráficos, clima, comida, esporte, saúde e muito mais) — cada ícone com descrição visual detalhada para IA escolher o melhor. Pretos por padrão, cor e tamanho customizáveis. React, Vue, Nuxt, Svelte e JS puro.",
   "author": {
     "name": "Eduardo Sites",

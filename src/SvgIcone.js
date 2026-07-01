@@ -1,5 +1,5 @@
 import { defineComponent, ref, watchEffect, h } from 'vue'
-import { svgIconeAsync } from './render.js'
+import { svgIcone, svgIconeAsync } from './render.js'
 
 export default defineComponent({
   name: 'SvgIcone',
@@ -12,31 +12,37 @@ export default defineComponent({
     className: { type: String, default: undefined }
   },
   setup(props) {
-    // O SVG bruto chega de forma assíncrona (chunk sob demanda no Vite).
-    // Começa vazio e é preenchido quando o ícone resolve.
-    const svg = ref('')
+    const opcoes = () => ({
+      nome: props.nome,
+      cor: props.cor,
+      tamanho: props.tamanho == null ? '1em' : props.tamanho,
+      className: props.className
+    })
+
+    // Tenta resolver SÍNCRONO já na criação. No SSR (e no cliente quando o ícone
+    // já está em cache — ex: veio do SSR), isso retorna o SVG na hora, então o
+    // ícone entra no HTML renderizado pelo servidor (bom pra SEO, sem flash).
+    const svg = ref(svgIcone(opcoes()) || '')
 
     // Tamanho usado no placeholder, pra reservar o espaço e evitar layout shift.
     const tamanhoPlaceholder = () => (props.tamanho == null ? '1em' : String(props.tamanho))
 
+    // No cliente, se o síncrono não resolveu (ícone ainda não baixado) ou as props
+    // mudaram, resolve sob demanda via chunk lazy e atualiza reativamente.
     watchEffect(async () => {
-      const nome = props.nome
-      const cor = props.cor
-      const tamanho = props.tamanho == null ? '1em' : props.tamanho
-      const className = props.className
-
-      const resultado = await svgIconeAsync({ nome, cor, tamanho, className })
-
-      // Se as props mudaram enquanto carregava, este efeito já foi reexecutado;
-      // só aplicamos se ainda estivermos resolvendo o mesmo ícone.
-      if (props.nome === nome) {
-        svg.value = resultado || ''
+      const { nome } = opcoes()
+      const sincrono = svgIcone(opcoes())
+      if (sincrono) {
+        svg.value = sincrono
+        return
       }
+      const resultado = await svgIconeAsync(opcoes())
+      // Só aplica se ainda estivermos resolvendo o mesmo ícone (evita race).
+      if (props.nome === nome) svg.value = resultado || ''
     })
 
     return () => {
-      // Placeholder: span do mesmo tamanho enquanto o SVG não chegou (1 frame no
-      // Vite), evitando layout shift. Depois trocamos pelo SVG real.
+      // Placeholder do mesmo tamanho enquanto o SVG não chegou (evita layout shift).
       if (!svg.value) {
         const t = tamanhoPlaceholder()
         return h('span', {

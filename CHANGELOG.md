@@ -4,6 +4,14 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.5.1] - 2026-07-01
+
+### Corrigido
+- **SSR**: o componente `<SvgIcone>` renderizava um espaço vazio no HTML do
+  servidor (o SVG só aparecia após a hidratação), prejudicando SEO e causando um
+  breve _flash_. Agora o ícone é resolvido de forma síncrona no SSR e já sai no
+  HTML inicial, sem perder o _tree-shaking_ no cliente.
+
 ## [1.5.0] - 2026-07-01
 
 ### Adicionado
