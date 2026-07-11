@@ -24,8 +24,13 @@ export default defineComponent({
     // ícone entra no HTML renderizado pelo servidor (bom pra SEO, sem flash).
     const svg = ref(svgIcone(opcoes()) || '')
 
-    // Tamanho usado no placeholder, pra reservar o espaço e evitar layout shift.
-    const tamanhoPlaceholder = () => (props.tamanho == null ? '1em' : String(props.tamanho))
+    // Dimensão CSS do placeholder: número vira px; string (ex: '1em', '20px')
+    // é usada como está. Reserva o espaço pra evitar layout shift.
+    const dimensaoPlaceholder = () => {
+      const t = props.tamanho
+      if (t == null) return '1em'
+      return typeof t === 'number' || /^\d+$/.test(String(t)) ? `${t}px` : String(t)
+    }
 
     // No cliente, se o síncrono não resolveu (ícone ainda não baixado) ou as props
     // mudaram, resolve sob demanda via chunk lazy e atualiza reativamente.
@@ -42,17 +47,23 @@ export default defineComponent({
     })
 
     return () => {
+      // Wrapper com dimensão fixa em AMBOS os estados (placeholder e resolvido).
+      // Manter o mesmo style base evita mismatch de hidratação: o SSR pode ter
+      // resolvido o SVG síncrono enquanto o cliente ainda mostra o placeholder no
+      // primeiro paint — se os styles divergissem, o Vue acusaria hydration mismatch.
+      const d = dimensaoPlaceholder()
+      const style = `display:inline-flex;line-height:0;width:${d};height:${d}`
+
       // Placeholder do mesmo tamanho enquanto o SVG não chegou (evita layout shift).
       if (!svg.value) {
-        const t = tamanhoPlaceholder()
         return h('span', {
           class: 'edusites-icone',
-          style: `display:inline-flex;line-height:0;width:${t};height:${t}`
+          style
         })
       }
       return h('span', {
         class: 'edusites-icone',
-        style: 'display:inline-flex;line-height:0',
+        style,
         innerHTML: svg.value
       })
     }
