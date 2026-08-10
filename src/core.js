@@ -53,6 +53,53 @@ export function iconesPorCategoria() {
   return grupos
 }
 
+// ─── Conjuntos ───────────────────────────────────────────────────────────────
+// Um conjunto é a FAMÍLIA de origem do ícone: ícones do mesmo conjunto foram
+// desenhados juntos, sob as mesmas regras (grade, espessura de traço, cantos),
+// então combinam entre si numa mesma tela. Ícones de conjuntos diferentes podem
+// destoar visualmente mesmo estando na mesma categoria temática.
+//
+// `categoria` responde "sobre o que é?" (Bancos, Animais...).
+// `conjunto`  responde "com quais outros ele combina?".
+
+// Conjunto dos ícones que já existiam antes do campo ser criado.
+export const CONJUNTO_PADRAO = 'base'
+
+// Conjunto do ícone (ex: 'gestao-dev'). Sem o campo, cai no padrão.
+export function conjuntoDoIcone(nome) {
+  const m = META[normalizarNome(nome)]
+  return (m && m.conjunto) || CONJUNTO_PADRAO
+}
+
+// Lista de conjuntos existentes, em ordem alfabética.
+export function listarConjuntos() {
+  const cs = new Set()
+  for (const nome of NOMES) cs.add((META[nome] && META[nome].conjunto) || CONJUNTO_PADRAO)
+  return [...cs].sort()
+}
+
+// Ícones agrupados por conjunto: { base: [...], 'gestao-dev': [...] }
+export function iconesPorConjunto() {
+  const grupos = {}
+  for (const nome of NOMES) {
+    const c = (META[nome] && META[nome].conjunto) || CONJUNTO_PADRAO
+    if (!grupos[c]) grupos[c] = []
+    grupos[c].push(nome)
+  }
+  return grupos
+}
+
+// true se todos os ícones informados são do mesmo conjunto — ou seja, se
+// combinam visualmente. Aceita lista de nomes ou um array.
+//   mesmoConjunto('lixeira', 'editar')  → true
+//   mesmoConjunto(['lixeira', 'nubank']) → false
+export function mesmoConjunto(...nomes) {
+  const lista = nomes.flat()
+  if (lista.length < 2) return true
+  const alvo = conjuntoDoIcone(lista[0])
+  return lista.every((n) => conjuntoDoIcone(n) === alvo)
+}
+
 // Versão da lib em que o ícone foi adicionado (ex: '1.4.0').
 export function versaoDoIcone(nome) {
   const m = META[normalizarNome(nome)]
@@ -102,6 +149,7 @@ export function buscarIcones(termo) {
     const meta = META[nome]
     const palavras = meta ? meta.palavras : []
     const categoria = meta ? meta.categoria.toLowerCase() : ''
+    const conjunto = meta && meta.conjunto ? meta.conjunto.toLowerCase() : ''
     const descricao = meta && meta.descricao ? meta.descricao.toLowerCase() : ''
     let score = 0
     for (const termo of termos) {
@@ -112,6 +160,8 @@ export function buscarIcones(termo) {
       else if (palavras.some((p) => p.startsWith(termo))) score += 20
       else if (palavras.some((p) => p.includes(termo))) score += 10
       if (categoria.includes(termo)) score += 8
+      // Conjunto: permite buscar "gestao-dev" e trazer a família inteira.
+      if (conjunto && conjunto.includes(termo)) score += 8
       // Descrição visual: peso baixo, ajuda buscas por forma ("circulo", "seta").
       if (descricao.includes(termo)) score += 5
     }

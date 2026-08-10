@@ -4,6 +4,37 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.6.0] - 2026-08-06
+
+### Adicionado
+- **Conjunto `gestao-dev`** — 109 ícones de UI desenhados sob a mesma grade
+  (viewBox `0 0 100 100`, área útil 16–84, traço já convertido em contorno),
+  todos com o prefixo `gd-`: `gd-check`, `gd-lixeira`, `gd-calendario`… O prefixo
+  existe porque 95 desses nomes já pertenciam ao conjunto `base`; com ele os
+  desenhos antigos continuam valendo e nenhum projeto muda de visual ao atualizar.
+- **API de conjuntos** — um conjunto é a família de origem do ícone: ícones do
+  mesmo conjunto foram desenhados juntos, sob as mesmas regras, e combinam entre
+  si na mesma tela. Enquanto `categoria` responde "sobre o que é?", `conjunto`
+  responde "com quais outros ele combina?".
+  - `conjuntoDoIcone(nome)` — o conjunto do ícone (`'base'` por padrão)
+  - `listarConjuntos()` — `['base', 'gestao-dev']`
+  - `iconesPorConjunto()` — os nomes agrupados por conjunto
+  - `mesmoConjunto(...nomes)` — `true` se todos combinam visualmente
+  - `CONJUNTO_PADRAO` — `'base'`, o conjunto dos ícones anteriores a este campo
+- A busca passa a considerar o conjunto: `buscarIcones('gestao-dev')` traz a
+  família inteira.
+
+### Alterado
+- **1197 ícones** no total (antes: 1088).
+- Os ícones `gd-*` têm o `viewBox` recortado no desenho real, e não no frame
+  100×100 que o Figma exporta. Aquele frame trazia ~30% de padding transparente
+  embutido — e em quantidade desigual (`gd-x` ocupava 48 de 100, `gd-pix` 76),
+  então dois ícones do mesmo `font-size` saíam com pesos visuais diferentes.
+  Agora o eixo maior encosta nas bordas: **1,39× maior em média**, até 2× no
+  `gd-x`. O desenho não mudou — o viewBox é um quadrado centrado no bounding
+  box, então a proporção é preservada e ícones estreitos (`gd-menos`,
+  `gd-pausa`) não esticam.
+
 ## [1.5.1] - 2026-07-01
 
 ### Corrigido
