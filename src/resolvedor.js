@@ -71,9 +71,44 @@ export function temGlob() {
   return GLOB !== null
 }
 
+// ---- Hidratação: recupera do DOM os ícones que o SSR já renderizou ----
+//
+// O SSR resolve os ícones síncrono e escreve o <svg> inteiro no HTML. Sem esta
+// etapa, o cliente hidratava com o cache VAZIO e ia buscar de novo, um por um,
+// ícones que já estavam desenhados na tela — e, quando o `watchEffect` do
+// componente disputava com o glob, o caminho async acabava puxando o monolítico
+// de 2,4 MB. Lendo o que já veio no HTML, o cache nasce quente e o cliente não
+// baixa nada para o primeiro paint.
+//
+// Roda uma única vez, no primeiro acesso do cliente ao resolvedor.
+let semeadoDoDom = false
+
+function semearDoDom() {
+  if (semeadoDoDom || typeof document === 'undefined') return
+  semeadoDoDom = true
+
+  try {
+    const nos = document.querySelectorAll('[data-icone]')
+    for (const no of nos) {
+      const nome = no.getAttribute('data-icone')
+      const svg = no.firstElementChild
+      if (!nome || !svg || CACHE_BRUTO.has(nome)) continue
+      // Guarda o SVG cru como veio do servidor. `montar()` reextrai viewBox e
+      // conteúdo depois, então o formato aqui é o mesmo do arquivo do ícone.
+      CACHE_BRUTO.set(nome, svg.outerHTML)
+    }
+  } catch { /* DOM indisponível: segue pelo caminho async normal */ }
+}
+
 // ---- Resolução assíncrona (caminho universal) ----
 export async function resolverBruto(nome) {
   if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)
+
+  // Antes de sair buscando na rede, aproveita o que o SSR já pintou na tela
+  if (!ehServidor()) {
+    semearDoDom()
+    if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)
+  }
 
   let bruto = null
 
@@ -99,6 +134,13 @@ export async function resolverBruto(nome) {
 // Cliente: retorna do cache (quente via SSR) ou null — disparando o load async.
 export function resolverBrutoSync(nome) {
   if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)
+
+  // Cliente: o ícone pode já estar desenhado na página pelo SSR. Resolver daí é
+  // síncrono de verdade — o componente nem chega a mostrar o placeholder.
+  if (!ehServidor()) {
+    semearDoDom()
+    if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)
+  }
 
   // Servidor com monolítico já em memória → resolve na hora.
   if (monoliticoSync) {

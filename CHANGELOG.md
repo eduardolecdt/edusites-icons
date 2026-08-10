@@ -4,6 +4,26 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.6.1] - 2026-08-10
+
+### Corrigido
+- **Hidratação deixa de baixar o monolítico de 2,4 MB.** Em app com SSR, o
+  servidor já resolvia os ícones e escrevia o `<svg>` inteiro no HTML, mas o
+  cliente hidratava com o cache vazio e ia buscar tudo de novo — na prática
+  puxando `icones.js` inteiro (763 KB comprimidos) para desenhar ícones que já
+  estavam na tela. Agora o resolvedor recupera do próprio DOM o que o SSR
+  renderizou (`semearDoDom`), então o cache nasce quente e o primeiro paint não
+  custa nenhuma requisição de ícone.
+- `<SvgIcone>` passou a emitir `data-icone="<nome>"` no wrapper. É esse atributo
+  que permite a recuperação acima, e de quebra mostra no inspetor qual ícone é
+  qual.
+
+### Notas
+- Sem breaking change: a API pública (`svgIcone`, `svgIconeAsync`, `precarregar`,
+  `semear`) não mudou. Quem não usa SSR segue pelo caminho de sempre.
+- Ícone que só aparece depois (modal, aba trocada) continua carregando sob
+  demanda pelo chunk individual, como antes.
+
 ## [1.6.0] - 2026-08-06
 
 ### Adicionado
