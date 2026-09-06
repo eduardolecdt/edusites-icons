@@ -4,6 +4,40 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.6.2] - 2026-09-06
+
+### Corrigido
+- **Ícone sumia ao voltar para uma tela já visitada, em app com SSR.** Medido
+  numa central de ajuda: a home abria com 8 ícones e 0 vazios; ao entrar num
+  artigo e voltar, 7 dos 8 sumiam — e só um F5 recuperava. O mesmo mecanismo
+  deixava sem ícone qualquer bloco que só monta após interação (um aviso dentro
+  de `v-if`), enquanto o MESMO ícone aparecia normal noutro ponto da página.
+
+  Eram duas causas somadas:
+
+  1. `resolverBrutoSync` entrava no ramo do monolítico **no cliente**. Em app
+     com SSR o `icones.js` é aliasado para um stub vazio no build do cliente
+     (para não arrastar 2,4 MB de SVG ao bundle), e `{}` é *truthy*: o bloco
+     rodava no navegador, fazia `{}[nome] || null` e seguia com `null`. Agora
+     exige `ehServidor()`.
+
+  2. Os dois resolvedores **cacheavam a falha**. Como ambos começam com
+     `if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)`, um `null`
+     gravado era devolvido em toda tentativa seguinte: o ícone morria para o
+     resto da sessão, e nem remontar o componente recuperava.
+
+- **Ausência confirmada continua sendo cacheada.** A correção acima distingue
+  *"este ícone não existe"* de *"não consegui carregar agora"* — a mesma
+  separação que o Iconify faz entre `null` e `undefined`. Um nome que a lib
+  realmente não tem é lembrado (não custa uma tentativa a cada render); uma
+  falha de carregamento deixa o caminho aberto para a próxima chamada.
+
+### Notas
+- Sem breaking change: a API pública não muda.
+- Quem já estava na 1.6.1 ganha a correção sem tocar em código de aplicação.
+- Não é preciso manter listas de "ícones para precarregar" na aplicação: esse
+  workaround existia justamente para contornar o cache envenenado.
+
 ## [1.6.1] - 2026-08-10
 
 ### Corrigido

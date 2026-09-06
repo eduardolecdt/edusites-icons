@@ -80,25 +80,18 @@ export function temGlob() {
 // de 2,4 MB. Lendo o que já veio no HTML, o cache nasce quente e o cliente não
 // baixa nada para o primeiro paint.
 //
-// Reexecutável, mas com FREIO.
+// Roda uma única vez, no primeiro acesso do cliente ao resolvedor.
 //
-// Em SPA cada tela traz ícones novos no DOM, então um `semeadoDoDom = true`
-// definitivo faria a lib ignorar tudo que chegasse depois da primeira página —
-// era por isso que, ao voltar para uma tela já visitada, os ícones sumiam.
-//
-// O freio existe porque agora NÃO cacheamos falha: um ícone que não resolve
-// volta a pedir, e sem o intervalo cada tentativa varreria o DOM inteiro com
-// `querySelectorAll` — em laço, com o watchEffect do componente re-tentando.
-// 200ms é curto o bastante para uma navegação nova ser semeada na hora, e longo
-// o bastante para não virar varredura contínua.
-let ultimaSemeadura = 0
+// Não tentar reexecutar isto a cada navegação: varrer o documento a cada
+// resolução custa caro e, com a falha deixando de ser cacheada, vira laço com o
+// watchEffect do componente (medido: trava o renderer). O caso da navegação
+// interna é resolvido pelos dois consertos do `resolverBruto`/`resolverBrutoSync`
+// — o ícone passa a resolver pelo chunk individual, sem depender do DOM.
+let semeadoDoDom = false
 
 function semearDoDom() {
-  if (typeof document === 'undefined') return
-
-  const agora = Date.now()
-  if (agora - ultimaSemeadura < 200) return
-  ultimaSemeadura = agora
+  if (semeadoDoDom || typeof document === 'undefined') return
+  semeadoDoDom = true
 
   try {
     const nos = document.querySelectorAll('[data-icone]')
@@ -124,38 +117,52 @@ export async function resolverBruto(nome) {
   }
 
   let bruto = null
+  // "Este ícone não existe" é DIFERENTE de "não consegui carregar agora".
+  // Só o primeiro é verdade estável e pode ser cacheado — ver abaixo.
+  let inexistente = false
 
   // No servidor, ou sem glob: usa o monolítico (tem tudo, custo só no server).
   if (ehServidor() || !GLOB) {
     const icones = await carregarMonoAsync()
     bruto = (icones && icones[nome]) || null
+    // No SERVIDOR o monolítico é a fonte completa: não achou = não existe.
+    // No cliente sem glob, não: pode ser o stub vazio do bundle.
+    inexistente = ehServidor() && !!icones && !bruto
   } else {
     // Cliente com glob: chunk lazy sob demanda (tree-shaken).
     const carregar = GLOB[chaveGlob(nome)]
     if (carregar) {
       const mod = await carregar()
       bruto = (mod && mod.default) || null
+    } else {
+      // O glob lista TODOS os arquivos de ícone em build-time. Ausente da
+      // lista = arquivo não existe. Isto é 404 confirmado, não falha.
+      inexistente = true
     }
   }
 
   /*
-   * SÓ cacheia SUCESSO.
+   * Cacheia SUCESSO, e cacheia AUSÊNCIA CONFIRMADA — nunca a falha.
    *
-   * Cachear `null` matava o ícone para o resto da sessão: a primeira linha desta
-   * função é `if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)`, então um
-   * null gravado aqui era devolvido em toda tentativa seguinte — nem remontar o
-   * componente recuperava.
+   * A distinção é a mesma que o Iconify faz entre `null` (o servidor respondeu
+   * que o ícone não existe: não pergunte de novo) e `undefined` (ainda não
+   * sabemos: pergunte). Sem ela, um tropeço momentâneo virava permanente.
    *
-   * Onde isso aparecia: em app com SSR, o monolítico é aliasado para um stub
-   * vazio no build do cliente (para não arrastar 2,4 MB de SVG ao bundle). Na
-   * navegação interna não há SSR, então o ícone é pedido pela primeira vez no
-   * navegador, o stub responde {}, e `bruto` vinha null. Sintoma medido: a home
-   * abria com 8 ícones e 0 vazios; ao entrar num artigo e VOLTAR, 7 dos 8 sumiam
-   * e só um F5 recuperava.
+   * O bug que isto corrige: em app com SSR, `icones.js` é aliasado para um stub
+   * vazio no build do cliente, para não arrastar 2,4 MB de SVG ao bundle. Numa
+   * navegação interna o ícone é pedido pela primeira vez no navegador, o stub
+   * responde `{}`, e `bruto` vinha null — que era gravado no cache. Como a
+   * primeira linha desta função devolve o que estiver em cache, aquele ícone
+   * morria para o resto da sessão: nem remontar o componente recuperava.
    *
-   * Sem o cache da falha, a próxima chamada tenta de novo — e o glob resolve.
+   * Medido na central de ajuda: a home abria com 8 ícones e 0 vazios; ao entrar
+   * num artigo e VOLTAR, 7 dos 8 sumiam, e só um F5 recuperava.
+   *
+   * Agora um nome que a lib realmente não tem é lembrado (não custa uma
+   * tentativa a cada render), e uma falha de carregamento deixa o caminho
+   * aberto para a próxima chamada tentar de novo.
    */
-  if (bruto) CACHE_BRUTO.set(nome, bruto)
+  if (bruto || inexistente) CACHE_BRUTO.set(nome, bruto)
   return bruto
 }
 
