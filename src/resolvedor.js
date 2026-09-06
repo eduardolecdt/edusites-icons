@@ -80,12 +80,25 @@ export function temGlob() {
 // de 2,4 MB. Lendo o que já veio no HTML, o cache nasce quente e o cliente não
 // baixa nada para o primeiro paint.
 //
-// Roda uma única vez, no primeiro acesso do cliente ao resolvedor.
-let semeadoDoDom = false
+// Reexecutável, mas com FREIO.
+//
+// Em SPA cada tela traz ícones novos no DOM, então um `semeadoDoDom = true`
+// definitivo faria a lib ignorar tudo que chegasse depois da primeira página —
+// era por isso que, ao voltar para uma tela já visitada, os ícones sumiam.
+//
+// O freio existe porque agora NÃO cacheamos falha: um ícone que não resolve
+// volta a pedir, e sem o intervalo cada tentativa varreria o DOM inteiro com
+// `querySelectorAll` — em laço, com o watchEffect do componente re-tentando.
+// 200ms é curto o bastante para uma navegação nova ser semeada na hora, e longo
+// o bastante para não virar varredura contínua.
+let ultimaSemeadura = 0
 
 function semearDoDom() {
-  if (semeadoDoDom || typeof document === 'undefined') return
-  semeadoDoDom = true
+  if (typeof document === 'undefined') return
+
+  const agora = Date.now()
+  if (agora - ultimaSemeadura < 200) return
+  ultimaSemeadura = agora
 
   try {
     const nos = document.querySelectorAll('[data-icone]')
@@ -125,7 +138,24 @@ export async function resolverBruto(nome) {
     }
   }
 
-  CACHE_BRUTO.set(nome, bruto)
+  /*
+   * SÓ cacheia SUCESSO.
+   *
+   * Cachear `null` matava o ícone para o resto da sessão: a primeira linha desta
+   * função é `if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)`, então um
+   * null gravado aqui era devolvido em toda tentativa seguinte — nem remontar o
+   * componente recuperava.
+   *
+   * Onde isso aparecia: em app com SSR, o monolítico é aliasado para um stub
+   * vazio no build do cliente (para não arrastar 2,4 MB de SVG ao bundle). Na
+   * navegação interna não há SSR, então o ícone é pedido pela primeira vez no
+   * navegador, o stub responde {}, e `bruto` vinha null. Sintoma medido: a home
+   * abria com 8 ícones e 0 vazios; ao entrar num artigo e VOLTAR, 7 dos 8 sumiam
+   * e só um F5 recuperava.
+   *
+   * Sem o cache da falha, a próxima chamada tenta de novo — e o glob resolve.
+   */
+  if (bruto) CACHE_BRUTO.set(nome, bruto)
   return bruto
 }
 
@@ -142,10 +172,22 @@ export function resolverBrutoSync(nome) {
     if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)
   }
 
-  // Servidor com monolítico já em memória → resolve na hora.
-  if (monoliticoSync) {
+  /*
+   * Servidor com monolítico já em memória → resolve na hora.
+   *
+   * A guarda `ehServidor()` é essencial. No CLIENTE de um app com SSR o
+   * `monoliticoSync` costuma ser um STUB VAZIO — os bundlers aliasam
+   * `icones.js` para um `{}` de propósito, para não arrastar 2,4 MB de SVG ao
+   * bundle. Como `{}` é truthy, este bloco era executado no navegador, fazia
+   * `{}[nome] || null` e CACHEAVA o null: o ícone morria para o resto da
+   * sessão, mesmo com o chunk individual disponível.
+   *
+   * E cacheia só o que encontrou: gravar a falha impede a re-tentativa, já que
+   * a primeira linha da função devolve o que estiver no cache.
+   */
+  if (ehServidor() && monoliticoSync) {
     const bruto = monoliticoSync[nome] || null
-    CACHE_BRUTO.set(nome, bruto)
+    if (bruto) CACHE_BRUTO.set(nome, bruto)
     return bruto
   }
 
