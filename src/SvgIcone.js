@@ -54,18 +54,15 @@ export default defineComponent({
       const d = dimensaoPlaceholder()
       const style = `display:inline-flex;line-height:0;width:${d};height:${d}`
 
+      // `data-icone` é o que permite ao resolvedor recuperar, na hidratação, os
+      // SVGs que o SSR já escreveu no HTML — sem ele o cliente rebaixaria ícone
+      // que já está na tela. Custa o nome do ícone em bytes por ocorrência.
+      const attrs = { class: 'edusites-icone', style, 'data-icone': props.nome }
+
       // Placeholder do mesmo tamanho enquanto o SVG não chegou (evita layout shift).
-      if (!svg.value) {
-        return h('span', {
-          class: 'edusites-icone',
-          style
-        })
-      }
-      return h('span', {
-        class: 'edusites-icone',
-        style,
-        innerHTML: svg.value
-      })
+      if (!svg.value) return h('span', attrs)
+
+      return h('span', { ...attrs, innerHTML: svg.value })
     }
   }
 })

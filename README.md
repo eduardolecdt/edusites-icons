@@ -2,13 +2,13 @@
 
 # @edusites/icons
 
-**1088 ícones SVG em português-BR — tree-shakeable, para Vue, Nuxt, React, Svelte e JS puro. Cada ícone com descrição visual para IA.**
+**1197 ícones SVG em português-BR — tree-shakeable, para Vue, Nuxt, React, Svelte e JS puro. Cada ícone com descrição visual para IA.**
 
 [![npm version](https://img.shields.io/npm/v/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://www.npmjs.com/package/@edusites/icons)
 [![npm downloads](https://img.shields.io/npm/dm/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://www.npmjs.com/package/@edusites/icons)
 [![minzip](https://img.shields.io/bundlephobia/minzip/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://bundlephobia.com/package/@edusites/icons)
 [![license](https://img.shields.io/npm/l/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](./LICENSE)
-[![icons](https://img.shields.io/badge/ícones-1088-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
+[![icons](https://img.shields.io/badge/ícones-1197-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
 
 [Galeria de ícones](https://lecdt.com/libs/icones) · [Release Notes](https://github.com/eduardolecdt/edusites-icons/releases) · [Changelog](./CHANGELOG.md)
 
@@ -18,7 +18,7 @@
 
 - 🇧🇷 **Nomes em português-BR** — `casa`, `lixeira`, `cadeado`, `seta-direita`. Sem tradução mental.
 - 🤖 **Descrições para IA** — cada ícone tem uma descrição visual do desenho, para que agentes de IA escolham o ícone certo sem ver a imagem.
-- 🌳 **Tree-shakeable** — seu app baixa **só os ícones que usa**, não os 1088.
+- 🌳 **Tree-shakeable** — seu app baixa **só os ícones que usa**, não os 1197.
 - ⚡ **Multi-framework** — Vue, Nuxt, React, Svelte e JS puro. Zero dependências no núcleo.
 - 🎨 **Herança de cor e tamanho** — funciona como um ícone de fonte (`currentColor` / `1em`).
 - 🏦 **Feito para o Brasil** — bancos, fintechs e meios de pagamento brasileiros + as marcas mais usadas do mundo.
@@ -87,6 +87,14 @@ import { SvgIcone } from '@edusites/icons'
 
 ### JavaScript puro
 
+> [!IMPORTANT]
+> **Sem Vue no projeto? Importe sempre de `@edusites/icons/core`.**
+> O entry principal (`@edusites/icons`) reexporta o componente `<SvgIcone>`, que
+> depende de `vue`. Como `vue` é uma peer dependency **opcional**, importar do
+> entry principal sem tê-lo instalado falha com `ERR_MODULE_NOT_FOUND`.
+> O `/core` traz todas as funções — `svgIcone`, `buscarIcones`, `conjuntoDoIcone`
+> e as demais — sem tocar em Vue.
+
 ```javascript
 import { svgIcone } from '@edusites/icons/core'
 
@@ -132,7 +140,7 @@ function Icone({ nome, cor, tamanho }) {
 
 ## Descrições para IA 🤖
 
-Cada um dos 1088 ícones tem uma **descrição visual detalhada** do desenho — forma geométrica, se é contorno ou preenchido, elementos internos e o que representa. Foram escritas lendo o SVG real, não o nome, para que **agentes de IA escolham o ícone certo por como ele se parece**:
+Cada um dos 1197 ícones tem uma **descrição visual detalhada** do desenho — forma geométrica, se é contorno ou preenchido, elementos internos e o que representa. Foram escritas lendo o SVG real, não o nome, para que **agentes de IA escolham o ícone certo por como ele se parece**:
 
 ```javascript
 import { descricaoDoIcone, buscarIcones } from '@edusites/icons/core'
@@ -176,7 +184,7 @@ await precarregar(['casa', 'nike'])   // pré-carrega ícones no cache
 
 ## Tree-shaking & bundle size 🌳
 
-Cada ícone é um módulo individual, então **seu bundle inclui só os ícones que você usa** — não a biblioteca inteira. Um app com 20 ícones baixa ~20 ícones, não os 1088.
+Cada ícone é um módulo individual, então **seu bundle inclui só os ícones que você usa** — não a biblioteca inteira. Um app com 20 ícones baixa ~20 ícones, não os 1197.
 
 - No **Vite/Nuxt**, cada ícone vira um _chunk_ separado, carregado sob demanda.
 - No **SSR**, os ícones são resolvidos de forma síncrona e já saem no HTML (bom para SEO, sem _flash_).
@@ -187,11 +195,49 @@ Cada ícone é um módulo individual, então **seu bundle inclui só os ícones 
 
 ## Ícones disponíveis
 
-**1088 ícones** organizados em 32 categorias. Explore e busque todos na **[galeria online](https://lecdt.com/libs/icones)**.
+**1197 ícones** organizados em 32 categorias. Explore e busque todos na **[galeria online](https://lecdt.com/libs/icones)**.
 
 Categorias: Ações · Alinhamento · Animais · Bancos · Casa · Clima · Comida · Comunicação · Comércio · Corpo & Saúde · Cursor · Desenvolvimento · Dispositivos · Documentos · Educação · Financeiro · Gráficos · Imóveis · Interface · Lugares · Marketing · Multimídia · Móveis · Natureza · Navegação · Objetos · Redes Sociais · Segurança · Tecnologias · Tempo · Usuário · Veículos.
 
 > Programaticamente: `listarIcones()`, `buscarIcones(termo)`, `iconesPorCategoria()`.
+
+## Conjuntos
+
+Um **conjunto** é a família de origem do ícone. Ícones do mesmo conjunto foram desenhados juntos, sob as mesmas regras de grade, espessura de traço e cantos — então combinam entre si numa mesma tela. Ícones de conjuntos diferentes podem destoar mesmo estando na mesma categoria temática.
+
+| | |
+|---|---|
+| `categoria` | responde **"sobre o que é?"** — Bancos, Animais, Financeiro… |
+| `conjunto` | responde **"com quais outros ele combina?"** |
+
+| Conjunto | Ícones | Prefixo | Desenho |
+|---|---|---|---|
+| `base` | 1088 | — | origem variada |
+| `gestao-dev` | 109 | `gd-` | grade única, traço convertido em contorno |
+
+Os `gd-*` têm o `viewBox` recortado no desenho, e não numa moldura fixa: o eixo maior encosta nas bordas. Assim dois ícones com o mesmo `tamanho` saem com o mesmo peso visual — sem um parecer menor que o outro por ter mais margem embutida.
+
+```js
+// fora do Vue, importe de /core (o entry principal carrega o componente Vue)
+import { conjuntoDoIcone, listarConjuntos, iconesPorConjunto, mesmoConjunto } from '@edusites/icons/core'
+
+conjuntoDoIcone('gd-check')            // 'gestao-dev'
+conjuntoDoIcone('check')               // 'base'
+listarConjuntos()                      // ['base', 'gestao-dev']
+iconesPorConjunto()['gestao-dev']      // ['gd-agenda', 'gd-alvo', ...]
+
+mesmoConjunto('gd-lixeira', 'gd-editar')  // true  — combinam
+mesmoConjunto('gd-lixeira', 'nubank')     // false — famílias diferentes
+```
+
+O conjunto `gestao-dev` usa o prefixo `gd-` porque **95 dos seus nomes já existiam** no `base` (`check`, `calendario`, `usuario`…). Com o prefixo os dois desenhos coexistem e nenhum projeto muda de visual ao atualizar a lib — para adotar a família nova, troque o prefixo nos seus `<SvgIcone>`:
+
+```vue
+<SvgIcone nome="check" />     <!-- desenho antigo (base) -->
+<SvgIcone nome="gd-check" />  <!-- desenho novo (gestao-dev) -->
+```
+
+> Buscar pelo nome do conjunto traz a família inteira: `buscarIcones('gestao-dev')`.
 
 ## Marcas registradas / Trademark ⚠️
 

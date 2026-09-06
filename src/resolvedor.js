@@ -71,26 +71,98 @@ export function temGlob() {
   return GLOB !== null
 }
 
+// ---- Hidratação: recupera do DOM os ícones que o SSR já renderizou ----
+//
+// O SSR resolve os ícones síncrono e escreve o <svg> inteiro no HTML. Sem esta
+// etapa, o cliente hidratava com o cache VAZIO e ia buscar de novo, um por um,
+// ícones que já estavam desenhados na tela — e, quando o `watchEffect` do
+// componente disputava com o glob, o caminho async acabava puxando o monolítico
+// de 2,4 MB. Lendo o que já veio no HTML, o cache nasce quente e o cliente não
+// baixa nada para o primeiro paint.
+//
+// Roda uma única vez, no primeiro acesso do cliente ao resolvedor.
+//
+// Não tentar reexecutar isto a cada navegação: varrer o documento a cada
+// resolução custa caro e, com a falha deixando de ser cacheada, vira laço com o
+// watchEffect do componente (medido: trava o renderer). O caso da navegação
+// interna é resolvido pelos dois consertos do `resolverBruto`/`resolverBrutoSync`
+// — o ícone passa a resolver pelo chunk individual, sem depender do DOM.
+let semeadoDoDom = false
+
+function semearDoDom() {
+  if (semeadoDoDom || typeof document === 'undefined') return
+  semeadoDoDom = true
+
+  try {
+    const nos = document.querySelectorAll('[data-icone]')
+    for (const no of nos) {
+      const nome = no.getAttribute('data-icone')
+      const svg = no.firstElementChild
+      if (!nome || !svg || CACHE_BRUTO.has(nome)) continue
+      // Guarda o SVG cru como veio do servidor. `montar()` reextrai viewBox e
+      // conteúdo depois, então o formato aqui é o mesmo do arquivo do ícone.
+      CACHE_BRUTO.set(nome, svg.outerHTML)
+    }
+  } catch { /* DOM indisponível: segue pelo caminho async normal */ }
+}
+
 // ---- Resolução assíncrona (caminho universal) ----
 export async function resolverBruto(nome) {
   if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)
 
+  // Antes de sair buscando na rede, aproveita o que o SSR já pintou na tela
+  if (!ehServidor()) {
+    semearDoDom()
+    if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)
+  }
+
   let bruto = null
+  // "Este ícone não existe" é DIFERENTE de "não consegui carregar agora".
+  // Só o primeiro é verdade estável e pode ser cacheado — ver abaixo.
+  let inexistente = false
 
   // No servidor, ou sem glob: usa o monolítico (tem tudo, custo só no server).
   if (ehServidor() || !GLOB) {
     const icones = await carregarMonoAsync()
     bruto = (icones && icones[nome]) || null
+    // No SERVIDOR o monolítico é a fonte completa: não achou = não existe.
+    // No cliente sem glob, não: pode ser o stub vazio do bundle.
+    inexistente = ehServidor() && !!icones && !bruto
   } else {
     // Cliente com glob: chunk lazy sob demanda (tree-shaken).
     const carregar = GLOB[chaveGlob(nome)]
     if (carregar) {
       const mod = await carregar()
       bruto = (mod && mod.default) || null
+    } else {
+      // O glob lista TODOS os arquivos de ícone em build-time. Ausente da
+      // lista = arquivo não existe. Isto é 404 confirmado, não falha.
+      inexistente = true
     }
   }
 
-  CACHE_BRUTO.set(nome, bruto)
+  /*
+   * Cacheia SUCESSO, e cacheia AUSÊNCIA CONFIRMADA — nunca a falha.
+   *
+   * A distinção é a mesma que o Iconify faz entre `null` (o servidor respondeu
+   * que o ícone não existe: não pergunte de novo) e `undefined` (ainda não
+   * sabemos: pergunte). Sem ela, um tropeço momentâneo virava permanente.
+   *
+   * O bug que isto corrige: em app com SSR, `icones.js` é aliasado para um stub
+   * vazio no build do cliente, para não arrastar 2,4 MB de SVG ao bundle. Numa
+   * navegação interna o ícone é pedido pela primeira vez no navegador, o stub
+   * responde `{}`, e `bruto` vinha null — que era gravado no cache. Como a
+   * primeira linha desta função devolve o que estiver em cache, aquele ícone
+   * morria para o resto da sessão: nem remontar o componente recuperava.
+   *
+   * Medido na central de ajuda: a home abria com 8 ícones e 0 vazios; ao entrar
+   * num artigo e VOLTAR, 7 dos 8 sumiam, e só um F5 recuperava.
+   *
+   * Agora um nome que a lib realmente não tem é lembrado (não custa uma
+   * tentativa a cada render), e uma falha de carregamento deixa o caminho
+   * aberto para a próxima chamada tentar de novo.
+   */
+  if (bruto || inexistente) CACHE_BRUTO.set(nome, bruto)
   return bruto
 }
 
@@ -100,10 +172,29 @@ export async function resolverBruto(nome) {
 export function resolverBrutoSync(nome) {
   if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)
 
-  // Servidor com monolítico já em memória → resolve na hora.
-  if (monoliticoSync) {
+  // Cliente: o ícone pode já estar desenhado na página pelo SSR. Resolver daí é
+  // síncrono de verdade — o componente nem chega a mostrar o placeholder.
+  if (!ehServidor()) {
+    semearDoDom()
+    if (CACHE_BRUTO.has(nome)) return CACHE_BRUTO.get(nome)
+  }
+
+  /*
+   * Servidor com monolítico já em memória → resolve na hora.
+   *
+   * A guarda `ehServidor()` é essencial. No CLIENTE de um app com SSR o
+   * `monoliticoSync` costuma ser um STUB VAZIO — os bundlers aliasam
+   * `icones.js` para um `{}` de propósito, para não arrastar 2,4 MB de SVG ao
+   * bundle. Como `{}` é truthy, este bloco era executado no navegador, fazia
+   * `{}[nome] || null` e CACHEAVA o null: o ícone morria para o resto da
+   * sessão, mesmo com o chunk individual disponível.
+   *
+   * E cacheia só o que encontrou: gravar a falha impede a re-tentativa, já que
+   * a primeira linha da função devolve o que estiver no cache.
+   */
+  if (ehServidor() && monoliticoSync) {
     const bruto = monoliticoSync[nome] || null
-    CACHE_BRUTO.set(nome, bruto)
+    if (bruto) CACHE_BRUTO.set(nome, bruto)
     return bruto
   }
 
