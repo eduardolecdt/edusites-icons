@@ -214,8 +214,11 @@ Um **conjunto** é a família de origem do ícone. Ícones do mesmo conjunto for
 |---|---|---|---|
 | `base` | 1088 | — | origem variada |
 | `gestao-dev` | 109 | `gd-` | grade única, traço convertido em contorno |
+| `edusites` | 107 | `es-` | linha de 9px arredondada, convertida em contorno |
 
-Os `gd-*` têm o `viewBox` recortado no desenho, e não numa moldura fixa: o eixo maior encosta nas bordas. Assim dois ícones com o mesmo `tamanho` saem com o mesmo peso visual — sem um parecer menor que o outro por ter mais margem embutida.
+Os `es-*` são a família da plataforma EduSites: traço de 9px com pontas e junções arredondadas, desenhados numa grade de 100×100 — interface, player de vídeo, gamificação e comunidade.
+
+Os `gd-*` e `es-*` têm o `viewBox` recortado no desenho, e não numa moldura fixa: o eixo maior encosta nas bordas. Assim dois ícones com o mesmo `tamanho` saem com o mesmo peso visual — sem um parecer menor que o outro por ter mais margem embutida.
 
 ```js
 // fora do Vue, importe de /core (o entry principal carrega o componente Vue)
@@ -223,7 +226,7 @@ import { conjuntoDoIcone, listarConjuntos, iconesPorConjunto, mesmoConjunto } fr
 
 conjuntoDoIcone('gd-check')            // 'gestao-dev'
 conjuntoDoIcone('check')               // 'base'
-listarConjuntos()                      // ['base', 'gestao-dev']
+listarConjuntos()                      // ['base', 'edusites', 'gestao-dev']
 iconesPorConjunto()['gestao-dev']      // ['gd-agenda', 'gd-alvo', ...]
 
 mesmoConjunto('gd-lixeira', 'gd-editar')  // true  — combinam

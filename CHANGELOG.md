@@ -4,6 +4,27 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.7.0] - 2026-09-14
+
+### Adicionado
+- **Conjunto `edusites` (107 ícones, prefixo `es-`).** A família da plataforma
+  EduSites: traço de 9px com pontas e junções arredondadas, desenhado numa
+  grade de 100×100 e convertido em contorno na exportação, como o `gestao-dev`.
+
+  Cobre o que a plataforma usa de ponta a ponta: navegação (`es-inicio`,
+  `es-workshops`, `es-ranking`, `es-ofensiva`, `es-mentoria`, `es-favoritos`,
+  `es-quizzes`, `es-perfil`, `es-chat`), interface (`es-buscar`, `es-sino`,
+  `es-ajustes`, setas, `es-cadeado`, `es-atencao`, `es-info`…), player de vídeo
+  (`es-play`, `es-pause`, `es-avancar-10`, `es-voltar-10`, `es-som`, `es-mudo`,
+  `es-legendas`, `es-pip`, `es-tela-cheia`, `es-velocidade`, `es-qualidade`),
+  conteúdo (`es-livro`, `es-video`, `es-documento`, `es-anotacoes`,
+  `es-transcricao`, `es-anexo`…) e gamificação (`es-foguete`, `es-medalha`,
+  `es-coroa`, `es-xp`, `es-graficos`, `es-ingresso`).
+
+  Como no `gestao-dev`, o prefixo evita colisão com os nomes do `base`:
+  `<SvgIcone nome="check" />` continua no desenho antigo e
+  `<SvgIcone nome="es-check" />` usa o novo.
+
 ## [1.6.2] - 2026-09-06
 
 ### Corrigido
