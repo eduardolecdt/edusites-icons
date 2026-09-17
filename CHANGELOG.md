@@ -4,24 +4,6 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [1.8.1] - 2026-09-17
-
-### Adicionado
-- **11 ícones no conjunto `pagzero`, que passa de 122 para 133.** São os `pz-*`
-  que os fronts `nuxt-web`, `nuxt-ajuda` e `nuxt-area` já usavam e que faltavam
-  na biblioteca: navegação (`pz-chevron-baixo`, `pz-chevron-esquerda`,
-  `pz-seta`), conteúdo e material de estudo (`pz-livro`, `pz-livros`,
-  `pz-documento`, `pz-pasta`, `pz-lista`), player e tempo (`pz-play`,
-  `pz-cronometro`) e conexão (`pz-wifi`).
-
-  Seguem o mesmo desenho do restante da família: preenchido (filled), cantos
-  arredondados, moldura fixa de 100×100.
-
-### Notas
-- `pz-chevron-baixo` e `pz-chevron-esquerda` compartilham a geometria da família
-  de chevrons já presente no conjunto (`pz-setinha-baixo` e `pz-setinha`). Os
-  nomes novos foram mantidos porque são os que os fronts já referenciam.
-
 ## [1.8.0] - 2026-09-17
 
 ### Adicionado

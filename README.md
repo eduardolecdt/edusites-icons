@@ -2,13 +2,13 @@
 
 # @edusites/icons
 
-**1437 ícones SVG em português-BR — tree-shakeable, para Vue, Nuxt, React, Svelte e JS puro. Cada ícone com descrição visual para IA.**
+**1426 ícones SVG em português-BR — tree-shakeable, para Vue, Nuxt, React, Svelte e JS puro. Cada ícone com descrição visual para IA.**
 
 [![npm version](https://img.shields.io/npm/v/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://www.npmjs.com/package/@edusites/icons)
 [![npm downloads](https://img.shields.io/npm/dm/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://www.npmjs.com/package/@edusites/icons)
 [![minzip](https://img.shields.io/bundlephobia/minzip/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://bundlephobia.com/package/@edusites/icons)
 [![license](https://img.shields.io/npm/l/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](./LICENSE)
-[![icons](https://img.shields.io/badge/ícones-1437-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
+[![icons](https://img.shields.io/badge/ícones-1426-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
 
 [Galeria de ícones](https://lecdt.com/libs/icones) · [Release Notes](https://github.com/eduardolecdt/edusites-icons/releases) · [Changelog](./CHANGELOG.md)
 
@@ -18,7 +18,7 @@
 
 - 🇧🇷 **Nomes em português-BR** — `casa`, `lixeira`, `cadeado`, `seta-direita`. Sem tradução mental.
 - 🤖 **Descrições para IA** — cada ícone tem uma descrição visual do desenho, para que agentes de IA escolham o ícone certo sem ver a imagem.
-- 🌳 **Tree-shakeable** — seu app baixa **só os ícones que usa**, não os 1437.
+- 🌳 **Tree-shakeable** — seu app baixa **só os ícones que usa**, não os 1426.
 - ⚡ **Multi-framework** — Vue, Nuxt, React, Svelte e JS puro. Zero dependências no núcleo.
 - 🎨 **Herança de cor e tamanho** — funciona como um ícone de fonte (`currentColor` / `1em`).
 - 🏦 **Feito para o Brasil** — bancos, fintechs e meios de pagamento brasileiros + as marcas mais usadas do mundo.
@@ -140,7 +140,7 @@ function Icone({ nome, cor, tamanho }) {
 
 ## Descrições para IA 🤖
 
-Cada um dos 1437 ícones tem uma **descrição visual detalhada** do desenho — forma geométrica, se é contorno ou preenchido, elementos internos e o que representa. Foram escritas lendo o SVG real, não o nome, para que **agentes de IA escolham o ícone certo por como ele se parece**:
+Cada um dos 1426 ícones tem uma **descrição visual detalhada** do desenho — forma geométrica, se é contorno ou preenchido, elementos internos e o que representa. Foram escritas lendo o SVG real, não o nome, para que **agentes de IA escolham o ícone certo por como ele se parece**:
 
 ```javascript
 import { descricaoDoIcone, buscarIcones } from '@edusites/icons/core'
@@ -184,7 +184,7 @@ await precarregar(['casa', 'nike'])   // pré-carrega ícones no cache
 
 ## Tree-shaking & bundle size 🌳
 
-Cada ícone é um módulo individual, então **seu bundle inclui só os ícones que você usa** — não a biblioteca inteira. Um app com 20 ícones baixa ~20 ícones, não os 1437.
+Cada ícone é um módulo individual, então **seu bundle inclui só os ícones que você usa** — não a biblioteca inteira. Um app com 20 ícones baixa ~20 ícones, não os 1426.
 
 - No **Vite/Nuxt**, cada ícone vira um _chunk_ separado, carregado sob demanda.
 - No **SSR**, os ícones são resolvidos de forma síncrona e já saem no HTML (bom para SEO, sem _flash_).
@@ -195,7 +195,7 @@ Cada ícone é um módulo individual, então **seu bundle inclui só os ícones 
 
 ## Ícones disponíveis
 
-**1437 ícones** organizados em 32 categorias. Explore e busque todos na **[galeria online](https://lecdt.com/libs/icones)**.
+**1426 ícones** organizados em 32 categorias. Explore e busque todos na **[galeria online](https://lecdt.com/libs/icones)**.
 
 Categorias: Ações · Alinhamento · Animais · Bancos · Casa · Clima · Comida · Comunicação · Comércio · Corpo & Saúde · Cursor · Desenvolvimento · Dispositivos · Documentos · Educação · Financeiro · Gráficos · Imóveis · Interface · Lugares · Marketing · Multimídia · Móveis · Natureza · Navegação · Objetos · Redes Sociais · Segurança · Tecnologias · Tempo · Usuário · Veículos.
 
@@ -215,7 +215,7 @@ Um **conjunto** é a família de origem do ícone. Ícones do mesmo conjunto for
 | `base` | 1088 | — | origem variada |
 | `gestao-dev` | 109 | `gd-` | grade única, traço convertido em contorno |
 | `edusites` | 107 | `es-` | linha de 9px arredondada, convertida em contorno |
-| `pagzero` | 133 | `pz-` | preenchido (filled), cantos arredondados, moldura 100×100 |
+| `pagzero` | 122 | `pz-` | preenchido (filled), cantos arredondados, moldura 100×100 |
 
 Os `es-*` são a família da plataforma EduSites: traço de 9px com pontas e junções arredondadas, desenhados numa grade de 100×100 — interface, player de vídeo, gamificação e comunidade.
 
