@@ -8,7 +8,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://www.npmjs.com/package/@edusites/icons)
 [![minzip](https://img.shields.io/bundlephobia/minzip/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://bundlephobia.com/package/@edusites/icons)
 [![license](https://img.shields.io/npm/l/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](./LICENSE)
-[![icons](https://img.shields.io/badge/ícones-1197-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
+[![icons](https://img.shields.io/badge/ícones-1319-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
 
 [Galeria de ícones](https://lecdt.com/libs/icones) · [Release Notes](https://github.com/eduardolecdt/edusites-icons/releases) · [Changelog](./CHANGELOG.md)
 
@@ -215,8 +215,11 @@ Um **conjunto** é a família de origem do ícone. Ícones do mesmo conjunto for
 | `base` | 1088 | — | origem variada |
 | `gestao-dev` | 109 | `gd-` | grade única, traço convertido em contorno |
 | `edusites` | 107 | `es-` | linha de 9px arredondada, convertida em contorno |
+| `pagzero` | 122 | `pz-` | preenchido (filled), cantos arredondados, moldura 100×100 |
 
 Os `es-*` são a família da plataforma EduSites: traço de 9px com pontas e junções arredondadas, desenhados numa grade de 100×100 — interface, player de vídeo, gamificação e comunidade.
+
+Os `pz-*` são a família da plataforma PagZero: desenho **preenchido** (filled) de cantos arredondados, numa moldura fixa de 100×100 — checkout, meios de pagamento, vendas, produtos e painel do produtor.
 
 Os `gd-*` e `es-*` têm o `viewBox` recortado no desenho, e não numa moldura fixa: o eixo maior encosta nas bordas. Assim dois ícones com o mesmo `tamanho` saem com o mesmo peso visual — sem um parecer menor que o outro por ter mais margem embutida.
 
@@ -226,7 +229,7 @@ import { conjuntoDoIcone, listarConjuntos, iconesPorConjunto, mesmoConjunto } fr
 
 conjuntoDoIcone('gd-check')            // 'gestao-dev'
 conjuntoDoIcone('check')               // 'base'
-listarConjuntos()                      // ['base', 'edusites', 'gestao-dev']
+listarConjuntos()                      // ['base', 'edusites', 'gestao-dev', 'pagzero']
 iconesPorConjunto()['gestao-dev']      // ['gd-agenda', 'gd-alvo', ...]
 
 mesmoConjunto('gd-lixeira', 'gd-editar')  // true  — combinam

@@ -4,6 +4,35 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.8.0] - 2026-09-17
+
+### Adicionado
+- **Conjunto `pagzero` (122 ícones, prefixo `pz-`).** A família da plataforma
+  PagZero, em estilo **preenchido (filled)** com cantos arredondados, numa
+  moldura fixa de 100×100 — diferente dos `gd-*` e `es-*`, que são de traço
+  convertido em contorno.
+
+  Cobre o fluxo de pagamento de ponta a ponta: meios e operações financeiras
+  (`pz-pix`, `pz-boleto`, `pz-cartao`, `pz-maquininha-cartao`, `pz-carteira`,
+  `pz-dinheiro`, `pz-simbolo-real`, `pz-banco`, `pz-transferencias`,
+  `pz-assinaturas`, `pz-porcentagem`), comércio e vendas (`pz-venda`,
+  `pz-carrinho`, `pz-produtos`, `pz-caixa`, `pz-cupom`, `pz-tag`,
+  `pz-ingresso`, `pz-presente`), relatórios (`pz-dashboard`, `pz-grafico`,
+  `pz-grafico-crescimento`, `pz-grafico-declinio`, `pz-grafico-dinheiro`,
+  `pz-grafico-medidor`, `pz-tabela-dados`, `pz-arquivo-pdf`,
+  `pz-arquivo-excel`), pessoas (`pz-usuario`, `pz-clientes`, `pz-colaborador`,
+  `pz-pessoas-grupo`, `pz-aperto-maos`), segurança (`pz-cadeado`,
+  `pz-escudo-check`, `pz-escudo-alerta`, `pz-bloquear`, `pz-senha`) e a
+  interface do painel (setas, `pz-lupa`, `pz-filtro`, `pz-sino`,
+  `pz-engrenagem`, `pz-editar`, `pz-lixeira`, `pz-copiar`, `pz-detalhes`…).
+
+  Como no `gestao-dev` e no `edusites`, o prefixo evita colisão com os nomes do
+  `base`: `<SvgIcone nome="cartao" />` continua no desenho antigo e
+  `<SvgIcone nome="pz-cartao" />` usa o novo.
+
+  `pz-pix`, `pz-boleto` e `pz-whatsapp` são logotipos/símbolos de marca e vêm
+  com `marca: true` nos metadados.
+
 ## [1.7.0] - 2026-09-14
 
 ### Adicionado
