@@ -8,7 +8,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://www.npmjs.com/package/@edusites/icons)
 [![minzip](https://img.shields.io/bundlephobia/minzip/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://bundlephobia.com/package/@edusites/icons)
 [![license](https://img.shields.io/npm/l/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](./LICENSE)
-[![icons](https://img.shields.io/badge/ícones-1432-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
+[![icons](https://img.shields.io/badge/ícones-1319-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
 
 [Galeria de ícones](https://lecdt.com/libs/icones) · [Release Notes](https://github.com/eduardolecdt/edusites-icons/releases) · [Changelog](./CHANGELOG.md)
 
@@ -215,7 +215,7 @@ Um **conjunto** é a família de origem do ícone. Ícones do mesmo conjunto for
 | `base` | 1088 | — | origem variada |
 | `gestao-dev` | 109 | `gd-` | grade única, traço convertido em contorno |
 | `edusites` | 107 | `es-` | linha de 9px arredondada, convertida em contorno |
-| `pagzero` | 128 | `pz-` | preenchido (filled), cantos arredondados, moldura 100×100 |
+| `pagzero` | 122 | `pz-` | preenchido (filled), cantos arredondados, moldura 100×100 |
 
 Os `es-*` são a família da plataforma EduSites: traço de 9px com pontas e junções arredondadas, desenhados numa grade de 100×100 — interface, player de vídeo, gamificação e comunidade.
 

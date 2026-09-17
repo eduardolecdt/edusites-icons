@@ -4,24 +4,6 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [1.8.1] - 2026-09-17
-
-### Adicionado
-- **6 ícones no conjunto `pagzero`**, os que faltavam para o painel
-  administrativo do PagZero — o `nuxt-admin` já os usava e caía em
-  ícone inexistente: `pz-cadeado-aberto` (acesso liberado/destravado),
-  `pz-desfazer` (reverter ação), `pz-documento` (arquivo com canto dobrado),
-  `pz-externo` (abrir link em nova aba), `pz-lista` (listagem com marcadores)
-  e `pz-livro` (curso, aula, material de leitura).
-
-  Mesmo desenho preenchido de cantos arredondados na moldura 100×100 dos
-  demais `pz-*`, então convivem com o restante do conjunto sem destoar.
-
-### Notas
-- O conjunto `pagzero` passa de **122 para 128** ícones. Nenhum dos seis é
-  logo de marca, e nenhum ícone existente mudou — atualização puramente
-  aditiva.
-
 ## [1.8.0] - 2026-09-17
 
 ### Adicionado
