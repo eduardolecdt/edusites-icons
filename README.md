@@ -236,6 +236,8 @@ mesmoConjunto('gd-lixeira', 'gd-editar')  // true  — combinam
 mesmoConjunto('gd-lixeira', 'nubank')     // false — famílias diferentes
 ```
 
+Desde a **1.9.0**, o `gestao-dev` é um conjunto **em camadas**: cada ícone é um objeto sólido de uma cor só, com gradiente de transparência, detalhes recortados e uma placa de base que dá espessura (estilo "vidro 3D"). Ele continua herdando a cor pelo `currentColor` — a diferença é que o volume vem da transparência.
+
 O conjunto `gestao-dev` usa o prefixo `gd-` porque **95 dos seus nomes já existiam** no `base` (`check`, `calendario`, `usuario`…). Com o prefixo os dois desenhos coexistem e nenhum projeto muda de visual ao atualizar a lib — para adotar a família nova, troque o prefixo nos seus `<SvgIcone>`:
 
 ```vue

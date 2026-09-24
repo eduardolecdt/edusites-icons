@@ -15,6 +15,11 @@ _tree-shaking_ — apps só baixam os ícones que usam). Para adicionar um ícon
    - `viewBox="0 0 100 100"` (padrão da lib; o desenho fica centralizado num canvas quadrado).
    - **NÃO** defina `fill`, `width` ou `height` — a cor e o tamanho são injetados em runtime.
    - **NÃO** use `stroke` com cor fixa nem partes semi-transparentes (`opacity`, `#rrggbbaa`); o ícone deve ser 100% sólido e herdar a cor.
+   - **Exceção: conjunto `gestao-dev` (ícones em camadas, desde a 1.9.0).** Esses
+     usam gradiente com `stop-color="currentColor"`, máscara de recortes e o
+     marcador `__ID__` em todos os ids — o render troca o marcador por um id
+     único a cada uso. Não crie ícone em camadas à mão: siga o mesmo motor
+     (face 100→45%, vidro 60→18%, base 45→8% deslocada 3px, recortes por máscara).
 
    ```javascript
    export default `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="..."/></svg>`

@@ -4,6 +4,28 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.9.0] - 2026-09-22
+
+### Alterado
+- **Conjunto `gestao-dev` redesenhado em camadas (estilo "vidro 3D").** Os 109
+  ícones `gd-*` deixaram de ser traço e viraram objetos sólidos de uma cor só,
+  com gradiente vertical de transparência, detalhes recortados por máscara e uma
+  placa de base deslocada que dá espessura (referência: ícones do CleanMyMac).
+  Continuam herdando a cor (`currentColor`), agora com o volume dado pela
+  transparência. `viewBox` novo: `0 0 64 67`. As descrições no `meta.js`
+  foram reescritas para o desenho novo.
+
+### Adicionado
+- **14 ícones novos no `gestao-dev`:** `gd-whatsapp`, `gd-aba`, `gd-arquivos`,
+  `gd-caixa-selecao`, `gd-chave`, `gd-coluna`, `gd-estrela`, `gd-expandir`,
+  `gd-menu-curto`, `gd-modelo`, `gd-modo`, `gd-porcentagem`,
+  `gd-tabela-dados` e `gd-tag` — equivalentes em camadas de ícones do `base`.
+- **Suporte a ícones em camadas no render.** Ícones com o marcador `__ID__`
+  mantêm os `fill` internos (gradientes e máscara), recebem a cor também em
+  `color` e ganham ids únicos a cada uso (dois ícones iguais na página não
+  disputam o mesmo gradiente). Ícones sólidos comuns renderizam exatamente
+  como antes.
+
 ## [1.8.0] - 2026-09-17
 
 ### Adicionado

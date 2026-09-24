@@ -25,19 +25,42 @@ function extrairViewBox(svg) {
   return m ? m[1] : '0 0 24 24'
 }
 
+// Ícones EM CAMADAS (conjunto gestao-dev, desde a 1.9.0): uma cor só, mas com
+// gradiente de transparência, recortes por máscara e placa de base. Eles trazem
+// o marcador `__ID__` nos ids de <linearGradient>/<mask> e usam `currentColor`
+// nos gradientes. Diferenças no render:
+//   - os `fill` internos (url(#...) e as cores da máscara) são mantidos — nos
+//     ícones sólidos comuns eles são removidos para a cor vir da raiz;
+//   - a cor pedida também vai para `color` na raiz, porque é `currentColor`
+//     que pinta os gradientes;
+//   - cada chamada recebe ids únicos. Dois ícones iguais na mesma página não
+//     podem compartilhar id: o segundo passaria a depender do gradiente do
+//     primeiro (e sumiria se o primeiro estivesse escondido).
+const MARCADOR_CAMADAS = '__ID__'
+let sequenciaIds = 0
+
+function ehEmCamadas(bruto) {
+  return bruto.indexOf(MARCADOR_CAMADAS) !== -1
+}
+
 function montar(bruto, nome, cor, tamanho, className) {
   const chaveCache = `${nome}|${cor}|${tamanho}|${className}`
-  const cacheado = CACHE.get(chaveCache)
-  if (cacheado) return cacheado
+  let svg = CACHE.get(chaveCache)
 
-  const viewBox = extrairViewBox(bruto)
-  const conteudo = extrairConteudo(bruto).replace(/\s*fill="[^"]*"/g, '')
-  const classAttr = className ? ` class="${className}"` : ''
+  if (!svg) {
+    const camadas = ehEmCamadas(bruto)
+    const viewBox = extrairViewBox(bruto)
+    const conteudo = camadas ? extrairConteudo(bruto) : extrairConteudo(bruto).replace(/\s*fill="[^"]*"/g, '')
+    const classAttr = className ? ` class="${className}"` : ''
+    const corAttr = camadas && cor !== 'currentColor' ? ` style="color:${cor}"` : ''
 
-  const svg = `<svg width="${tamanho}" height="${tamanho}" viewBox="${viewBox}" fill="${cor}" xmlns="http://www.w3.org/2000/svg"${classAttr}>${conteudo}</svg>`
+    svg = `<svg width="${tamanho}" height="${tamanho}" viewBox="${viewBox}" fill="${cor}"${corAttr} xmlns="http://www.w3.org/2000/svg"${classAttr}>${conteudo}</svg>`
+    CACHE.set(chaveCache, svg)
+  }
 
-  CACHE.set(chaveCache, svg)
-  return svg
+  // O cache guarda o molde; os ids são trocados a cada uso.
+  if (svg.indexOf(MARCADOR_CAMADAS) === -1) return svg
+  return svg.replaceAll(MARCADOR_CAMADAS, `esi${++sequenciaIds}`)
 }
 
 function lerOpcoes(options) {
