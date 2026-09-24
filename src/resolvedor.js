@@ -101,7 +101,10 @@ function semearDoDom() {
       if (!nome || !svg || CACHE_BRUTO.has(nome)) continue
       // Guarda o SVG cru como veio do servidor. `montar()` reextrai viewBox e
       // conteúdo depois, então o formato aqui é o mesmo do arquivo do ícone.
-      CACHE_BRUTO.set(nome, svg.outerHTML)
+      // Ícone em camadas chega com os ids já trocados (`esi12-face`): sem voltar
+      // o marcador `__ID__`, o `montar()` o trataria como sólido e arrancaria os
+      // `fill` dos gradientes, deixando o ícone chapado.
+      CACHE_BRUTO.set(nome, svg.outerHTML.replace(/\besi\d+(?=-)/g, '__ID__'))
     }
   } catch { /* DOM indisponível: segue pelo caminho async normal */ }
 }

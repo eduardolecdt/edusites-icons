@@ -4,6 +4,17 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.9.1] - 2026-09-24
+
+### Corrigido
+- **Ícones em camadas (`gd-*`) perdiam o gradiente ao serem redesenhados no
+  cliente de apps com SSR.** Na hidratação, o resolvedor reaproveita os SVGs
+  que o servidor já escreveu na página, mas eles chegam com os ids trocados
+  (`esi12-face`) e sem o marcador `__ID__`. Aí o `montar()` tratava o ícone
+  como sólido e removia os `fill` internos, e ele ficava chapado em qualquer
+  novo render (troca de lista, modal, `svgIcone()` para download). Agora o
+  marcador é restaurado antes de o SVG entrar no cache.
+
 ## [1.9.0] - 2026-09-22
 
 ### Alterado
