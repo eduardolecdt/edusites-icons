@@ -214,7 +214,7 @@ Um **conjunto** é a família de origem do ícone. Ícones do mesmo conjunto for
 |---|---|---|---|
 | `base` | 1088 | — | origem variada |
 | `gestao-dev` | 109 | `gd-` | grade única, traço convertido em contorno |
-| `edusites` | 107 | `es-` | linha de 9px arredondada, convertida em contorno |
+| `edusites` | 109 | `es-` | linha de 9px arredondada, convertida em contorno |
 | `pagzero` | 122 | `pz-` | preenchido (filled), cantos arredondados, moldura 100×100 |
 
 Os `es-*` são a família da plataforma EduSites: traço de 9px com pontas e junções arredondadas, desenhados numa grade de 100×100 — interface, player de vídeo, gamificação e comunidade.

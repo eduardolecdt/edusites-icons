@@ -4,6 +4,14 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.10.0] - 2026-09-26
+
+### Adicionado
+- **2 ícones novos no conjunto `edusites`:** `es-templates` (janela com
+  cabeçalho e coluna lateral, com outra janela em L atrás) e `es-jogo-print`
+  (quadro de imagem com um cursor invadindo o canto, para o Jogo do Print).
+  Mesmo traço de 9px arredondado convertido em contorno do resto do `es-`.
+
 ## [1.9.1] - 2026-09-24
 
 ### Corrigido
