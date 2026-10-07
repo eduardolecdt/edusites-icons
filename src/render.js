@@ -43,18 +43,52 @@ function ehEmCamadas(bruto) {
   return bruto.indexOf(MARCADOR_CAMADAS) !== -1
 }
 
+// Ícones de TRAÇO (conjunto encarafit, desde a 1.11.0): o desenho é linha, não
+// área. O arquivo do ícone declara na raiz `fill="none"`, `stroke="currentColor"`,
+// a espessura (`stroke-width`) e as pontas/junções arredondadas; os elementos
+// internos não repetem isso. Diferenças no render:
+//   - a raiz sai com `fill="none"` e os atributos de traço copiados do arquivo
+//     (a espessura faz parte do desenho e escala junto com o `viewBox`);
+//   - os `fill` internos são mantidos: os pontos pequenos (o pingo do "i", os
+//     olhos do humor) são círculos com `fill="currentColor" stroke="none"`;
+//   - a cor pedida vai para `color` na raiz e o traço usa `currentColor`, assim
+//     linha e pontos pintam com a mesma cor.
+// A detecção olha só a tag raiz: nenhum ícone sólido tem `stroke` na raiz.
+const ATRIBUTOS_TRACO = ['stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit']
+
+function extrairRaiz(svg) {
+  const i = svg.indexOf('>')
+  return i !== -1 ? svg.slice(0, i + 1) : ''
+}
+
+function ehDeTraco(bruto) {
+  return /\sstroke=["']/.test(extrairRaiz(bruto))
+}
+
+function atributosDeTraco(bruto) {
+  const raiz = extrairRaiz(bruto)
+  let attrs = ' stroke="currentColor"'
+  for (const nome of ATRIBUTOS_TRACO) {
+    const m = raiz.match(new RegExp(`\\s${nome}=["']([^"']+)["']`))
+    if (m) attrs += ` ${nome}="${m[1]}"`
+  }
+  return attrs
+}
+
 function montar(bruto, nome, cor, tamanho, className) {
   const chaveCache = `${nome}|${cor}|${tamanho}|${className}`
   let svg = CACHE.get(chaveCache)
 
   if (!svg) {
     const camadas = ehEmCamadas(bruto)
+    const traco = !camadas && ehDeTraco(bruto)
     const viewBox = extrairViewBox(bruto)
-    const conteudo = camadas ? extrairConteudo(bruto) : extrairConteudo(bruto).replace(/\s*fill="[^"]*"/g, '')
+    const conteudo = camadas || traco ? extrairConteudo(bruto) : extrairConteudo(bruto).replace(/\s*fill="[^"]*"/g, '')
     const classAttr = className ? ` class="${className}"` : ''
-    const corAttr = camadas && cor !== 'currentColor' ? ` style="color:${cor}"` : ''
+    const corAttr = (camadas || traco) && cor !== 'currentColor' ? ` style="color:${cor}"` : ''
+    const pintura = traco ? ` fill="none"${atributosDeTraco(bruto)}` : ` fill="${cor}"`
 
-    svg = `<svg width="${tamanho}" height="${tamanho}" viewBox="${viewBox}" fill="${cor}"${corAttr} xmlns="http://www.w3.org/2000/svg"${classAttr}>${conteudo}</svg>`
+    svg = `<svg width="${tamanho}" height="${tamanho}" viewBox="${viewBox}"${pintura}${corAttr} xmlns="http://www.w3.org/2000/svg"${classAttr}>${conteudo}</svg>`
     CACHE.set(chaveCache, svg)
   }
 

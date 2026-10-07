@@ -2,13 +2,13 @@
 
 # @edusites/icons
 
-**1426 ícones SVG em português-BR — tree-shakeable, para Vue, Nuxt, React, Svelte e JS puro. Cada ícone com descrição visual para IA.**
+**1647 ícones SVG em português-BR — tree-shakeable, para Vue, Nuxt, React, Svelte e JS puro. Cada ícone com descrição visual para IA.**
 
 [![npm version](https://img.shields.io/npm/v/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://www.npmjs.com/package/@edusites/icons)
 [![npm downloads](https://img.shields.io/npm/dm/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://www.npmjs.com/package/@edusites/icons)
 [![minzip](https://img.shields.io/bundlephobia/minzip/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](https://bundlephobia.com/package/@edusites/icons)
 [![license](https://img.shields.io/npm/l/@edusites/icons?style=flat&colorA=18181B&colorB=28CF8D)](./LICENSE)
-[![icons](https://img.shields.io/badge/ícones-1426-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
+[![icons](https://img.shields.io/badge/ícones-1647-28CF8D?style=flat&colorA=18181B)](https://lecdt.com/libs/icones)
 
 [Galeria de ícones](https://lecdt.com/libs/icones) · [Release Notes](https://github.com/eduardolecdt/edusites-icons/releases) · [Changelog](./CHANGELOG.md)
 
@@ -18,7 +18,7 @@
 
 - 🇧🇷 **Nomes em português-BR** — `casa`, `lixeira`, `cadeado`, `seta-direita`. Sem tradução mental.
 - 🤖 **Descrições para IA** — cada ícone tem uma descrição visual do desenho, para que agentes de IA escolham o ícone certo sem ver a imagem.
-- 🌳 **Tree-shakeable** — seu app baixa **só os ícones que usa**, não os 1426.
+- 🌳 **Tree-shakeable** — seu app baixa **só os ícones que usa**, não os 1647.
 - ⚡ **Multi-framework** — Vue, Nuxt, React, Svelte e JS puro. Zero dependências no núcleo.
 - 🎨 **Herança de cor e tamanho** — funciona como um ícone de fonte (`currentColor` / `1em`).
 - 🏦 **Feito para o Brasil** — bancos, fintechs e meios de pagamento brasileiros + as marcas mais usadas do mundo.
@@ -140,7 +140,7 @@ function Icone({ nome, cor, tamanho }) {
 
 ## Descrições para IA 🤖
 
-Cada um dos 1426 ícones tem uma **descrição visual detalhada** do desenho — forma geométrica, se é contorno ou preenchido, elementos internos e o que representa. Foram escritas lendo o SVG real, não o nome, para que **agentes de IA escolham o ícone certo por como ele se parece**:
+Cada um dos 1647 ícones tem uma **descrição visual detalhada** do desenho — forma geométrica, se é contorno ou preenchido, elementos internos e o que representa. Foram escritas lendo o SVG real, não o nome, para que **agentes de IA escolham o ícone certo por como ele se parece**:
 
 ```javascript
 import { descricaoDoIcone, buscarIcones } from '@edusites/icons/core'
@@ -184,7 +184,7 @@ await precarregar(['casa', 'nike'])   // pré-carrega ícones no cache
 
 ## Tree-shaking & bundle size 🌳
 
-Cada ícone é um módulo individual, então **seu bundle inclui só os ícones que você usa** — não a biblioteca inteira. Um app com 20 ícones baixa ~20 ícones, não os 1426.
+Cada ícone é um módulo individual, então **seu bundle inclui só os ícones que você usa** — não a biblioteca inteira. Um app com 20 ícones baixa ~20 ícones, não os 1647.
 
 - No **Vite/Nuxt**, cada ícone vira um _chunk_ separado, carregado sob demanda.
 - No **SSR**, os ícones são resolvidos de forma síncrona e já saem no HTML (bom para SEO, sem _flash_).
@@ -195,7 +195,7 @@ Cada ícone é um módulo individual, então **seu bundle inclui só os ícones 
 
 ## Ícones disponíveis
 
-**1426 ícones** organizados em 32 categorias. Explore e busque todos na **[galeria online](https://lecdt.com/libs/icones)**.
+**1647 ícones** organizados em 32 categorias. Explore e busque todos na **[galeria online](https://lecdt.com/libs/icones)**.
 
 Categorias: Ações · Alinhamento · Animais · Bancos · Casa · Clima · Comida · Comunicação · Comércio · Corpo & Saúde · Cursor · Desenvolvimento · Dispositivos · Documentos · Educação · Financeiro · Gráficos · Imóveis · Interface · Lugares · Marketing · Multimídia · Móveis · Natureza · Navegação · Objetos · Redes Sociais · Segurança · Tecnologias · Tempo · Usuário · Veículos.
 
@@ -213,13 +213,21 @@ Um **conjunto** é a família de origem do ícone. Ícones do mesmo conjunto for
 | Conjunto | Ícones | Prefixo | Desenho |
 |---|---|---|---|
 | `base` | 1088 | — | origem variada |
-| `gestao-dev` | 109 | `gd-` | grade única, traço convertido em contorno |
+| `gestao-dev` | 124 | `gd-` | em camadas (vidro 3D): sólido com gradiente de transparência |
 | `edusites` | 109 | `es-` | linha de 9px arredondada, convertida em contorno |
 | `pagzero` | 122 | `pz-` | preenchido (filled), cantos arredondados, moldura 100×100 |
+| `encarafit` | 204 | `ef-` | **traço grosso** de 2.5 na grade 24×24, pontas e junções redondas, sem preenchimento |
 
 Os `es-*` são a família da plataforma EduSites: traço de 9px com pontas e junções arredondadas, desenhados numa grade de 100×100 — interface, player de vídeo, gamificação e comunidade.
 
 Os `pz-*` são a família da plataforma PagZero: desenho **preenchido** (filled) de cantos arredondados, numa moldura fixa de 100×100 — checkout, meios de pagamento, vendas, produtos e painel do produtor.
+
+Os `ef-*` são a família do app Encarafit (personal trainer e treino): desenho de **traço** de verdade — `fill="none"`, `stroke="currentColor"`, espessura 2.5 numa grade de 24×24 com 2px de respiro, pontas e junções redondas. DNA da marca: setas, check, alvo e halter a 45°, e círculos/caixas com um respiro diagonal no canto superior direito (`ef-busca`, `ef-relogio`, `ef-info`, `ef-check-circulo`, `ef-check-in`). Só os pontos pequenos (o pingo do `ef-info`, os olhos do `ef-humor-bom`) são preenchidos. Cobre navegação, treino e equipamentos, músculos, voz e IA, hábitos e nutrição, gestão do personal e social. O traço escala junto com o ícone: em 16, 32 ou 48 px o peso continua proporcional (não é redesenhado).
+
+```vue
+<SvgIcone nome="ef-halter" />                        <!-- herda cor e tamanho -->
+<SvgIcone nome="ef-treino" cor="#D6FF3F" :tamanho="32" />
+```
 
 Os `gd-*` e `es-*` têm o `viewBox` recortado no desenho, e não numa moldura fixa: o eixo maior encosta nas bordas. Assim dois ícones com o mesmo `tamanho` saem com o mesmo peso visual — sem um parecer menor que o outro por ter mais margem embutida.
 
@@ -229,7 +237,8 @@ import { conjuntoDoIcone, listarConjuntos, iconesPorConjunto, mesmoConjunto } fr
 
 conjuntoDoIcone('gd-check')            // 'gestao-dev'
 conjuntoDoIcone('check')               // 'base'
-listarConjuntos()                      // ['base', 'edusites', 'gestao-dev', 'pagzero']
+conjuntoDoIcone('ef-halter')           // 'encarafit'
+listarConjuntos()                      // ['base', 'edusites', 'encarafit', 'gestao-dev', 'pagzero']
 iconesPorConjunto()['gestao-dev']      // ['gd-agenda', 'gd-alvo', ...]
 
 mesmoConjunto('gd-lixeira', 'gd-editar')  // true  — combinam
@@ -245,7 +254,7 @@ O conjunto `gestao-dev` usa o prefixo `gd-` porque **95 dos seus nomes já exist
 <SvgIcone nome="gd-check" />  <!-- desenho novo (gestao-dev) -->
 ```
 
-> Buscar pelo nome do conjunto traz a família inteira: `buscarIcones('gestao-dev')`.
+> Buscar pelo nome do conjunto traz a família inteira: `buscarIcones('gestao-dev')`, `buscarIcones('encarafit')`.
 
 ## Marcas registradas / Trademark ⚠️
 

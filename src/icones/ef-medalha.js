@@ -1,0 +1,1 @@
+export default `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 3.5L9.5 7.5"/><path d="M18.5 3.5L14.5 7.5"/><circle cx="12" cy="14.5" r="5.5"/><path d="M12 12.5V16.5"/></svg>`

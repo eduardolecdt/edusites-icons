@@ -4,6 +4,43 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.11.0] - 2026-09-29
+
+### Adicionado
+- **Conjunto novo `encarafit` (prefixo `ef-`), com 145 ícones** da
+  iconografia do app Encarafit: navegação e interface (49, incluindo
+  `ef-menos`, `ef-pausa`, `ef-qr-code`, `ef-upload`, `ef-email`,
+  `ef-arrastar`, `ef-ordenar` e `ef-desligar`), treino e
+  equipamentos (26: `ef-halter`, `ef-anilha`, `ef-kettlebell`, `ef-drop-set`,
+  `ef-esforco-rpe`...), corpo e músculos (12: `ef-peito`, `ef-biceps`,
+  `ef-gluteos`...), voz e IA (8), saúde, hábitos e nutrição (16), personal e
+  negócio (22) e social e marketing (12). Desenho de **traço**: grade 24×24,
+  espessura 2.5, pontas e junções redondas, sem preenchimento (só os pontos
+  pequenos são cheios), setas/check/alvo/halter a 45° e respiro diagonal no
+  canto de círculos e caixas. Cada ícone com descrição visual no `meta.js`.
+- **Suporte a ícones de traço no render.** Um ícone cuja tag raiz declara
+  `stroke` sai com `fill="none"`, `stroke="currentColor"` e os atributos de
+  traço do arquivo (`stroke-width`, `stroke-linecap`, `stroke-linejoin`); os
+  `fill` internos são mantidos e a cor pedida vai para `color`, pintando linha
+  e pontos juntos. Os ícones sólidos e em camadas renderizam exatamente como na
+  1.10.0.
+
+- **59 ícones de imóveis, obra e interface no conjunto `encarafit`**, desenhados
+  no mesmo traço para o Trade Imobiliário (o conjunto passa a ter 204):
+  imóveis (`ef-predio`, `ef-terreno`, `ef-loja`, `ef-planta-baixa`,
+  `ef-placa-venda`, `ef-casa-dinheiro`, `ef-casa-estrela`, `ef-chave`), obra e
+  serviços (`ef-capacete`, `ef-martelo`, `ef-serra`, `ef-escavadeira`,
+  `ef-ferramenta`, `ef-caixa-ferramentas`, `ef-rolo-pintura`, `ef-esquadro`,
+  `ef-torneira`, `ef-chuveiro`, `ef-tomada`, `ef-inseto`...), casa e móveis
+  (`ef-sofa`, `ef-sofa-tres`, `ef-poltrona`, `ef-janela`, `ef-porta`,
+  `ef-piso`, `ef-rodape`, `ef-telhado`...) e interface (`ef-calendario`,
+  `ef-pasta`, `ef-kanban`, `ef-vis-cards`, `ef-vis-lista`, `ef-externo`,
+  `ef-mais-opcoes`, `ef-opcoes`, `ef-imprimir`, `ef-imagem`, `ef-wifi`, `ef-livro`, `ef-justica`...).
+
+### Corrigido
+- README: contagem do conjunto `gestao-dev` (124) e descrição do desenho em
+  camadas na tabela de conjuntos.
+
 ## [1.10.0] - 2026-09-26
 
 ### Adicionado

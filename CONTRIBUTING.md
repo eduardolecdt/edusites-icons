@@ -20,6 +20,17 @@ _tree-shaking_ — apps só baixam os ícones que usam). Para adicionar um ícon
      marcador `__ID__` em todos os ids — o render troca o marcador por um id
      único a cada uso. Não crie ícone em camadas à mão: siga o mesmo motor
      (face 100→45%, vidro 60→18%, base 45→8% deslocada 3px, recortes por máscara).
+   - **Exceção: conjunto `encarafit` (ícones de traço, desde a 1.11.0).** O
+     desenho é linha, não área. A **raiz** do SVG declara a pintura inteira —
+     `fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+     stroke-linejoin="round"` — e os elementos internos não repetem isso. Mantenha
+     o `viewBox="0 0 24 24"` da grade original (os 2px de respiro fazem parte do
+     desenho). Pontos pequenos são a única parte cheia: `<circle ... fill="currentColor"
+     stroke="none"/>`. O render detecta o traço pelo `stroke` na tag raiz, mantém
+     os `fill` internos, copia `stroke-width`/`stroke-linecap`/`stroke-linejoin`
+     para a raiz final e manda a cor pedida para `color` (o traço usa
+     `currentColor`). Não converta o traço em contorno nem mude a espessura: para
+     outro tamanho, o ícone inteiro escala. Nomes com prefixo `ef-`.
 
    ```javascript
    export default `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="..."/></svg>`
