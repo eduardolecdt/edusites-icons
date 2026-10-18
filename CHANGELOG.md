@@ -4,6 +4,25 @@ Todas as mudanças relevantes deste projeto são documentadas aqui.
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/)
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.12.0] - 2026-10-18
+
+### Corrigido
+- **O navegador baixava o arquivo de 2,4 MB com todos os ícones.** O resolvedor testava
+  `typeof import.meta.glob === 'function'` antes de usar o glob; o Vite troca a chamada
+  `import.meta.glob(...)` pelo mapa dos ícones, mas não o `typeof`, então no navegador o teste dava
+  sempre falso e o cliente caía no monolítico na primeira navegação interna. Agora a chamada é direta
+  (fora do Vite ela lança e o fallback segue igual): o cliente baixa só o _chunk_ de cada ícone.
+  Vale para todo projeto Vite/Nuxt, sem configurar nada.
+
+### Adicionado
+- **Módulo Nuxt `@edusites/icons/nuxt-module`.** Uma linha no `nuxt.config` registra `<SvgIcone>`
+  no app (sem plugin próprio) e liga o plugin Vite abaixo. Opção `incluir` (via `edusitesIcons` no
+  `nuxt.config` ou inline) para nomes montados em tempo de execução.
+- **Plugin Vite `@edusites/icons/vite`.** No build, varre o código do projeto (vue, js, ts, json,
+  md...) atrás de nomes de ícone entre aspas e deixa no bundle só esses; no bundle do navegador, tira o
+  monolítico. Num site Nuxt com 3 ícones: de 1.661 arquivos em `_nuxt/` (maior com 2,8 MB) para 21
+  (maior com 73 KB). O `dev` não muda.
+
 ## [1.11.0] - 2026-09-29
 
 ### Adicionado

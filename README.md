@@ -39,7 +39,26 @@ yarn add @edusites/icons
 
 ### Nuxt (uso global, sem imports)
 
-Registre **uma vez** e use `<SvgIcone>` em qualquer página, sem importar nada.
+**Recomendado: o módulo.** Uma linha no `nuxt.config` registra `<SvgIcone>` no app inteiro **e** faz o build levar só os ícones que o site usa:
+
+```js
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@edusites/icons/nuxt-module']
+})
+```
+
+Nome de ícone montado em tempo de execução (ex.: `` `ef-${tipo}` ``) não aparece no código: liste em `incluir`.
+
+```js
+export default defineNuxtConfig({
+  modules: ['@edusites/icons/nuxt-module'],
+  edusitesIcons: { incluir: ['ef-agua', 'ef-sol'] }
+})
+```
+
+<details>
+<summary>Sem o módulo (só o componente, via plugin)</summary>
 
 `plugins/edusites-icons.js`:
 
@@ -50,6 +69,9 @@ export default defineNuxtPlugin((nuxtApp) => {
   instalarIcones(nuxtApp)
 })
 ```
+
+Funciona igual na tela, mas o build gera um arquivo por ícone da lib (só os usados são baixados pelo visitante).
+</details>
 
 Pronto:
 
@@ -184,11 +206,23 @@ await precarregar(['casa', 'nike'])   // pré-carrega ícones no cache
 
 ## Tree-shaking & bundle size 🌳
 
-Cada ícone é um módulo individual, então **seu bundle inclui só os ícones que você usa** — não a biblioteca inteira. Um app com 20 ícones baixa ~20 ícones, não os 1647.
+Cada ícone é um módulo individual: **o visitante baixa só os ícones que aparecem na tela** — não a biblioteca inteira.
 
-- No **Vite/Nuxt**, cada ícone vira um _chunk_ separado, carregado sob demanda.
-- No **SSR**, os ícones são resolvidos de forma síncrona e já saem no HTML (bom para SEO, sem _flash_).
+- No **SSR**, os ícones são resolvidos de forma síncrona e já saem no HTML (bom para SEO, sem _flash_). Na hidratação, o cliente reaproveita o que veio no HTML e não baixa nada.
+- Na **navegação interna**, cada ícone novo é um _chunk_ pequeno carregado sob demanda.
+- Com o **módulo Nuxt** ou o **plugin Vite**, o build também só **gera** os ícones usados: o projeto varre o código atrás de nomes de ícone entre aspas (`nome="casa"`, `{ icone: 'casa' }`) e o resto da lib nem entra no build. Num site com 3 ícones: de ~1.660 arquivos para ~20, e nenhum arquivo de 2,4 MB.
 - Em **JS puro / Node**, tudo funciona via um _fallback_ interno.
+
+### Vite (Vue sem Nuxt)
+
+```js
+// vite.config.js
+import { edusitesIconsVite } from '@edusites/icons/vite'
+
+export default {
+  plugins: [vue(), edusitesIconsVite({ incluir: [] })]
+}
+```
 
 > [!TIP]
 > Use `<SvgIcone nome="casa" />` normalmente — o carregamento sob demanda é automático. Para garantir um ícone antes de renderizar (ex: gerar SVG num handler), use `await precarregar(['casa'])` ou `svgIconeAsync()`.

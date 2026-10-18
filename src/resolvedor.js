@@ -27,11 +27,15 @@ function ehServidor() {
 }
 
 // ---- Glob lazy (só resolvido pelo Vite; undefined fora dele) ----
+// Chamada DIRETA, sem testar `typeof import.meta.glob` antes: o Vite troca a CHAMADA pelo mapa dos
+// ícones no build, mas deixa o `typeof` como está — e no navegador `import.meta.glob` não existe, então
+// o teste dava sempre falso e o cliente caía no monolítico de 2,4 MB. Fora do Vite a chamada lança
+// (import.meta.glob é undefined) e o catch segue com o fallback.
+// O plugin `@edusites/icons/vite` (e o módulo `@edusites/icons/nuxt-module`) troca esta linha, no build,
+// por um mapa só com os ícones que o projeto usa.
 let GLOB = null
 try {
-  if (typeof import.meta !== 'undefined' && typeof import.meta.glob === 'function') {
-    GLOB = import.meta.glob('./icones/*.js')
-  }
+  GLOB = import.meta.glob('./icones/*.js')
 } catch { GLOB = null }
 
 // Cache do SVG bruto (string) por nome.
